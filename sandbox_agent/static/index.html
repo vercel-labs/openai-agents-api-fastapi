@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Ask a question about a public GitHub repository. Codex inspects it inside Vercel Sandbox through the Agents API public beta."
+    />
+    <title>Sandboxed Repo Agent</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/styles.css?v=2" />
+    <script src="/assets/app.js?v=2" defer></script>
+  </head>
+  <body>
+    <div class="paper-grid" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="Sandboxed Repo Agent home">
+        <span class="mark">S/R</span>
+        <span>Sandboxed Repo Agent</span>
+      </a>
+      <div class="system-state"><i></i> Public beta / 01</div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Agents API × FastAPI × Vercel Sandbox</p>
+          <h1 id="hero-title">Ask the codebase.<br /><em>Keep it isolated.</em></h1>
+          <p class="lede">
+            Give Codex one focused question. It will inspect a public GitHub repository inside a
+            fresh microVM, return evidence, and leave nothing running behind.
+          </p>
+          <ul class="guardrails" aria-label="Run boundaries">
+            <li>Read-only repository access</li>
+            <li>No installs or builds</li>
+            <li>Short, disposable runs</li>
+          </ul>
+        </div>
+
+        <form id="inspection-form" class="query-card">
+          <div class="card-index" aria-hidden="true">01 / QUESTION</div>
+          <label>
+            <span>Public GitHub repository</span>
+            <input
+              id="repo-url"
+              name="repo_url"
+              type="url"
+              value="https://github.com/Anshuman71/theanshuman.dev"
+              placeholder="https://github.com/owner/repository"
+              autocomplete="url"
+              required
+            />
+          </label>
+          <div class="split-field">
+            <label>
+              <span>Git ref</span>
+              <input id="git-ref" name="ref" value="main" required />
+            </label>
+            <div class="scope-note">
+              <span>Scope</span>
+              <strong>Public repositories only</strong>
+            </div>
+          </div>
+          <label>
+            <span>Your question</span>
+            <textarea
+              id="question"
+              name="question"
+              rows="5"
+              required
+            >How is this project structured, and what commands are used to develop it?</textarea>
+          </label>
+          <div class="question-examples" aria-label="Example questions">
+            <button type="button" data-question="What framework and package manager does this repository use?">Stack</button>
+            <button type="button" data-question="What environment variables does this application expect, and where are they used?">Environment</button>
+            <button type="button" data-question="How is this project structured, and what commands are used to develop it?">Architecture</button>
+          </div>
+          <button class="submit-button" type="submit">
+            <span>Inspect repository</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+          </button>
+          <p id="form-error" class="form-error" role="alert"></p>
+        </form>
+      </section>
+
+      <section id="run-panel" class="run-panel" aria-labelledby="run-title" hidden>
+        <header class="run-header">
+          <div>
+            <p class="eyebrow">Live run</p>
+            <h2 id="run-title">Repository inspection</h2>
+          </div>
+          <span id="run-badge" class="run-badge"><i></i><span>Starting</span></span>
+        </header>
+
+        <ol id="progress" class="progress" aria-label="Inspection progress">
+          <li data-stage="session"><span>01</span><strong>Session</strong></li>
+          <li data-stage="sandbox"><span>02</span><strong>Sandbox</strong></li>
+          <li data-stage="inspect"><span>03</span><strong>Inspect</strong></li>
+          <li data-stage="result"><span>04</span><strong>Answer</strong></li>
+        </ol>
+
+        <div class="result-grid">
+          <article class="answer-panel">
+            <div class="panel-label">Answer</div>
+            <pre id="answer" aria-live="polite">Waiting for the agent…</pre>
+          </article>
+
+          <aside class="evidence-panel">
+            <div class="panel-label">Run evidence</div>
+            <dl id="run-meta" class="run-meta"></dl>
+            <div id="evidence" class="evidence" hidden>
+              <h3>Files inspected</h3>
+              <ul data-evidence="files_read"></ul>
+              <h3>Limitations</h3>
+              <ul data-evidence="limitations"></ul>
+            </div>
+            <div id="artifacts" class="artifacts" aria-label="Run downloads"></div>
+          </aside>
+        </div>
+
+        <details class="activity-drawer">
+          <summary>View executor activity <span id="activity-count">0 events</span></summary>
+          <ol id="activity-log"></ol>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <span>One FastAPI service</span>
+      <span>One disposable sandbox</span>
+      <span>Zero remote changes</span>
+    </footer>
+  </body>
+</html>
