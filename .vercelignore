@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.venv/
+.vercel/
+.pytest_cache/
+.ruff_cache/
+**/__pycache__/
+artifacts/
+apps/
+build/
+examples/
+sandboxed_repo_agent.egg-info/
+tests/

@@ -1,0 +1,42 @@
+[project]
+name = "sandboxed-repo-agent"
+version = "1.0.0"
+description = "FastAPI demo for the OpenAI Agents API public beta with Vercel Sandbox"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "openai==3.13.0",
+    "anyio==4.15.1",
+    "fastapi==0.117.1",
+    "python-dotenv==1.1.1",
+    "uvicorn==0.35.0",
+    "vercel==0.7.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<9",
+    "ruff>=0.15,<1",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["sandbox_agent*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.uv]
+# Permit the pinned launch release when a local minimum-release-age policy is enabled.
+exclude-newer-package = { openai = "2026-09-12T00:00:00Z" }
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
