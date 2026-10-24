@@ -5,18 +5,19 @@ description = "FastAPI demo for the OpenAI Agents API public beta with Vercel Sa
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "openai==3.13.0",
+    "openai==3.37.0",
     "anyio==4.15.1",
-    "fastapi==0.117.1",
-    "python-dotenv==1.1.1",
-    "uvicorn==0.35.0",
-    "vercel==0.7.1",
+    "fastapi==0.162.0",
+    "python-dotenv==1.2.4",
+    "uvicorn==0.54.0",
+    "vercel==0.12.1",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8,<9",
-    "ruff>=0.15,<1",
+    "httpx2==2.16.0",
+    "pytest==9.1.1",
+    "ruff==0.17.2",
 ]
 
 [build-system]
@@ -30,9 +31,15 @@ include = ["sandbox_agent*"]
 testpaths = ["tests"]
 pythonpath = ["."]
 
-[tool.uv]
-# Permit the pinned launch release when a local minimum-release-age policy is enabled.
-exclude-newer-package = { openai = "2026-09-12T00:00:00Z" }
+[tool.uv.exclude-newer-package]
+# Permit the reviewed upgrades and their matching SDK components under local age limits.
+openai = "2026-10-24T00:00:00Z"
+fastapi = "2026-10-24T00:00:00Z"
+vercel = "2026-10-24T00:00:00Z"
+vercel-queue = "2026-10-24T00:00:00Z"
+vercel-sandbox = "2026-10-24T00:00:00Z"
+vercel-workflow = "2026-10-24T00:00:00Z"
+ruff = "2026-10-24T00:00:00Z"
 
 [tool.ruff]
 line-length = 100
