@@ -165,6 +165,7 @@ class Harness:
         if request.method == "POST" and path == "/v1/agents/sessions":
             self.order.append("session_create")
             assert body["environment"]["type"] == "self_hosted"
+            assert body["environment"]["workspace_directory"] == "/vercel/sandbox"
             assert body["agent"]["model"] == "gpt-5.6-sol"
             assert "agent_id" not in body
             return httpx2.Response(200, json=self.session)
